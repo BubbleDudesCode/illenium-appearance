@@ -37,7 +37,7 @@ This resource has been significantly enhanced with a **brand new, modern Svelte-
 
 ## 📸 Preview
 
-*(Insert your screenshots or video preview here)*
+<img width="1913" height="1079" alt="Screenshot 2025-12-22 220756" src="https://github.com/user-attachments/assets/1e02a6f5-500e-4808-866b-cf8e4dfa4a6d" />
 > The new UI features a responsive hexagon grid, dynamic tooltips, and a clean "Noir/Cyber" aesthetic.
 
 ---
@@ -53,6 +53,7 @@ This resource has been significantly enhanced with a **brand new, modern Svelte-
    - `esx_skin` / `skinchanger` (for ESX)
 
 ---
+
 
 ## 📦 Dependencies
 
