@@ -80,7 +80,7 @@ setr illenium-appearance:locale "en"
 ## 🔗 Links
 
 - **Documentation**: [https://docs.illenium.dev](https://docs.illenium.dev)
-- **Discord**: [https://discord.illenium.dev]([https://discord.illenium.dev](https://discord.gg/qRsUFWdAqx))
+- **Discord**: https://discord.gg/qRsUFWdAqx
 
 ---
 
