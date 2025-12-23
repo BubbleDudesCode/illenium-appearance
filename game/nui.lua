@@ -1,7 +1,7 @@
 local client = client
 
 RegisterNUICallback("appearance_get_locales", function(_, cb)
-    cb(Locales[GetConvar("illenium-appearance:locale", "en")].UI)
+    cb(Locales[GetConvar("illenium-appearance:locale", "en")])
 end)
 
 RegisterNUICallback("appearance_get_settings", function(_, cb)
@@ -81,7 +81,8 @@ RegisterNUICallback("appearance_change_eye_color", function(eyeColor, cb)
 end)
 
 RegisterNUICallback("appearance_apply_tattoo", function(data, cb)
-    local paid = not data.tattoo or not Config.ChargePerTattoo or lib.callback.await("illenium-appearance:server:payForTattoo", false, data.tattoo)
+    local paid = not data.tattoo or not Config.ChargePerTattoo or
+    lib.callback.await("illenium-appearance:server:payForTattoo", false, data.tattoo)
     if paid then
         client.addPedTattoo(cache.ped, data.updatedTattoos or data)
     end

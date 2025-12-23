@@ -12,6 +12,17 @@ Locales["en"] = {
             accept = "Yes",
             decline = "No"
         },
+        common = {
+            back = "Back to",
+            save = "Save",
+            rotate = "Rotate",
+            camera = "Camera",
+            drawable = "Drawable",
+            texture = "Texture",
+            opacity = "Opacity",
+            left = "Left",
+            right = "Right"
+        },
         ped = {
             title = "Ped",
             model = "Model"
