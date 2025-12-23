@@ -29,7 +29,7 @@ end)
 
 RegisterNUICallback("appearance_turn_around", function(_, cb)
     cb(1)
-    client.pedTurn(cache.ped, 180.0)
+    client.pedTurn(cache.ped, 180.0, true)
 end)
 
 RegisterNUICallback("appearance_rotate_camera", function(direction, cb)
@@ -52,12 +52,12 @@ end)
 
 RegisterNUICallback("appearance_change_component", function(component, cb)
     client.setPedComponent(cache.ped, component)
-    cb(client.getComponentSettings(cache.ped, component.component_id))
+    cb(true)
 end)
 
 RegisterNUICallback("appearance_change_prop", function(prop, cb)
     client.setPedProp(cache.ped, prop)
-    cb(client.getPropSettings(cache.ped, prop.prop_id))
+    cb(true)
 end)
 
 RegisterNUICallback("appearance_change_head_blend", function(headBlend, cb)
@@ -87,7 +87,7 @@ end)
 
 RegisterNUICallback("appearance_apply_tattoo", function(data, cb)
     local paid = not data.tattoo or not Config.ChargePerTattoo or
-    lib.callback.await("illenium-appearance:server:payForTattoo", false, data.tattoo)
+        lib.callback.await("illenium-appearance:server:payForTattoo", false, data.tattoo)
     if paid then
         client.addPedTattoo(cache.ped, data.updatedTattoos or data)
     end
@@ -129,12 +129,12 @@ end)
 
 RegisterNUICallback("rotate_left", function(_, cb)
     cb(1)
-    client.pedTurn(cache.ped, 10.0)
+    client.pedTurn(cache.ped, 10.0, false)
 end)
 
 RegisterNUICallback("rotate_right", function(_, cb)
     cb(1)
-    client.pedTurn(cache.ped, -10.0)
+    client.pedTurn(cache.ped, -10.0, false)
 end)
 
 RegisterNUICallback("get_theme_configuration", function(_, cb)

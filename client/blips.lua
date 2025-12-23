@@ -30,9 +30,13 @@ end
 local function SetupBlips()
     for k, _ in pairs(Config.Stores) do
         local blipConfig = Config.Blips[Config.Stores[k].type]
-        if ShowBlip(blipConfig, Config.Stores[k]) then
-            local blip = CreateBlip(blipConfig, Config.Stores[k].coords)
-            Blips[#Blips + 1] = blip
+        if blipConfig then
+            if ShowBlip(blipConfig, Config.Stores[k]) then
+                local blip = CreateBlip(blipConfig, Config.Stores[k].coords)
+                Blips[#Blips + 1] = blip
+            end
+        else
+            print("ERROR: Missing blip config for store type: " .. tostring(Config.Stores[k].type))
         end
     end
 end

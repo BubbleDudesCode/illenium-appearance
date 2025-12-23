@@ -30,6 +30,7 @@ function GetDefaultConfig()
         faceFeatures = false,
         headOverlays = false,
         components = false,
+        appearance = true,
         componentConfig = getComponentConfig(),
         props = false,
         propConfig = getPropConfig(),

@@ -71,18 +71,19 @@ end
 
 local function SetupStoreTarget(targetConfig, action, k, v)
     local parameters = {
-        options = {{
+        options = { {
             type = "client",
             action = action,
             icon = targetConfig.icon,
             label = targetConfig.label
-        }},
+        } },
         distance = targetConfig.distance,
         rotation = v.rotation
     }
 
     if Config.EnablePedsForShops then
-        TargetPeds.Store[k] = CreatePedAtCoords(v.targetModel or targetConfig.model, v.coords, v.targetScenario or targetConfig.scenario)
+        TargetPeds.Store[k] = CreatePedAtCoords(v.targetModel or targetConfig.model, v.coords,
+            v.targetScenario or targetConfig.scenario)
         Target.AddTargetEntity(TargetPeds.Store[k], parameters)
     elseif v.usePoly then
         Target.AddPolyZone(v.type .. k, v.points, parameters)
@@ -96,20 +97,24 @@ local function SetupStoreTargets()
         local targetConfig = Config.TargetConfig[v.type]
         local action
 
-        if v.type == "barber" then
-            action = OpenBarberShop
-        elseif v.type == "clothing" then
-            action = function()
-                TriggerEvent("illenium-appearance:client:openClothingShopMenu")
+        if targetConfig then
+            if v.type == "barber" then
+                action = OpenBarberShop
+            elseif v.type == "clothing" then
+                action = function()
+                    TriggerEvent("illenium-appearance:client:openClothingShopMenu")
+                end
+            elseif v.type == "tattoo" then
+                action = OpenTattooShop
+            elseif v.type == "surgeon" then
+                action = OpenSurgeonShop
             end
-        elseif v.type == "tattoo" then
-            action = OpenTattooShop
-        elseif v.type == "surgeon" then
-            action = OpenSurgeonShop
-        end
 
-        if not (Config.RCoreTattoosCompatibility and v.type == "tattoo") then
-            SetupStoreTarget(targetConfig, action, k, v)
+            if not (Config.RCoreTattoosCompatibility and v.type == "tattoo") then
+                SetupStoreTarget(targetConfig, action, k, v)
+            end
+        else
+            print("ERROR: Missing target config for store type: " .. tostring(v.type))
         end
     end
 end
@@ -117,33 +122,38 @@ end
 local function SetupClothingRoomTargets()
     for k, v in pairs(Config.ClothingRooms) do
         local targetConfig = Config.TargetConfig["clothingroom"]
-        local action = function()
-            local outfits = GetPlayerJobOutfits(v.job)
-            TriggerEvent("illenium-appearance:client:openJobOutfitsMenu", outfits)
-        end
+        if targetConfig then
+            local action = function()
+                local outfits = GetPlayerJobOutfits(v.job)
+                TriggerEvent("illenium-appearance:client:openJobOutfitsMenu", outfits)
+            end
 
-        local parameters = {
-            options = {{
-                type = "client",
-                action = action,
-                icon = targetConfig.icon,
-                label = targetConfig.label,
-                canInteract = v.job and CheckDuty or nil,
-                job = v.job,
-                gang = v.gang
-            }},
-            distance = targetConfig.distance,
-            rotation = v.rotation
-        }
+            local parameters = {
+                options = { {
+                    type = "client",
+                    action = action,
+                    icon = targetConfig.icon,
+                    label = targetConfig.label,
+                    canInteract = v.job and CheckDuty or nil,
+                    job = v.job,
+                    gang = v.gang
+                } },
+                distance = targetConfig.distance,
+                rotation = v.rotation
+            }
 
-        local key = "clothing_" .. (v.job or v.gang) .. k
-        if Config.EnablePedsForClothingRooms then
-            TargetPeds.ClothingRoom[k] = CreatePedAtCoords(v.targetModel or targetConfig.model, v.coords, v.targetScenario or targetConfig.scenario)
-            Target.AddTargetEntity(TargetPeds.ClothingRoom[k], parameters)
-        elseif v.usePoly then
-            Target.AddPolyZone(key, v.points, parameters)
+            local key = "clothing_" .. (v.job or v.gang) .. k
+            if Config.EnablePedsForClothingRooms then
+                TargetPeds.ClothingRoom[k] = CreatePedAtCoords(v.targetModel or targetConfig.model, v.coords,
+                    v.targetScenario or targetConfig.scenario)
+                Target.AddTargetEntity(TargetPeds.ClothingRoom[k], parameters)
+            elseif v.usePoly then
+                Target.AddPolyZone(key, v.points, parameters)
+            else
+                Target.AddBoxZone(key, v.coords, v.size, parameters)
+            end
         else
-            Target.AddBoxZone(key, v.coords, v.size, parameters)
+            print("ERROR: Missing target config for clothingroom")
         end
     end
 end
@@ -152,29 +162,34 @@ local function SetupPlayerOutfitRoomTargets()
     for k, v in pairs(Config.PlayerOutfitRooms) do
         local targetConfig = Config.TargetConfig["playeroutfitroom"]
 
-        local parameters = {
-            options = {{
-                type = "client",
-                action = function()
-                    OpenOutfitRoom(v)
-                end,
-                icon = targetConfig.icon,
-                label = targetConfig.label,
-                canInteract = function()
-                    return IsPlayerAllowedForOutfitRoom(v)
-                end
-            }},
-            distance = targetConfig.distance,
-            rotation = v.rotation
-        }
+        if targetConfig then
+            local parameters = {
+                options = { {
+                    type = "client",
+                    action = function()
+                        OpenOutfitRoom(v)
+                    end,
+                    icon = targetConfig.icon,
+                    label = targetConfig.label,
+                    canInteract = function()
+                        return IsPlayerAllowedForOutfitRoom(v)
+                    end
+                } },
+                distance = targetConfig.distance,
+                rotation = v.rotation
+            }
 
-        if Config.EnablePedsForPlayerOutfitRooms then
-            TargetPeds.PlayerOutfitRoom[k] = CreatePedAtCoords(v.targetModel or targetConfig.model, v.coords, v.targetScenario or targetConfig.scenario)
-            Target.AddTargetEntity(TargetPeds.PlayerOutfitRoom[k], parameters)
-        elseif v.usePoly then
-            Target.AddPolyZone("playeroutfitroom_" .. k, v.points, parameters)
+            if Config.EnablePedsForPlayerOutfitRooms then
+                TargetPeds.PlayerOutfitRoom[k] = CreatePedAtCoords(v.targetModel or targetConfig.model, v.coords,
+                    v.targetScenario or targetConfig.scenario)
+                Target.AddTargetEntity(TargetPeds.PlayerOutfitRoom[k], parameters)
+            elseif v.usePoly then
+                Target.AddPolyZone("playeroutfitroom_" .. k, v.points, parameters)
+            else
+                Target.AddBoxZone("playeroutfitroom_" .. k, v.coords, v.size, parameters)
+            end
         else
-            Target.AddBoxZone("playeroutfitroom_" .. k, v.coords, v.size, parameters)
+            print("ERROR: Missing target config for playeroutfitroom")
         end
     end
 end

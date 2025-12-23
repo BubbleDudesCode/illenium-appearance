@@ -161,6 +161,7 @@ local function OpenClothingShop(isPedMenu)
     local config = GetDefaultConfig()
     config.components = true
     config.props = true
+    config.appearance = false
 
     if isPedMenu then
         config.ped = true
@@ -168,6 +169,7 @@ local function OpenClothingShop(isPedMenu)
         config.faceFeatures = true
         config.headOverlays = true
         config.tattoos = not Config.RCoreTattoosCompatibility and true
+        config.appearance = true
     end
     OpenShop(config, isPedMenu, "clothing")
 end
