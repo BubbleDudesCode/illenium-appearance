@@ -7,11 +7,11 @@ local function getRgbColors()
     }
 
     for i = 0, GetNumHairColors() - 1 do
-        colors.hair[i + 1] = { GetPedHairRgbColor(i) }
+        colors.hair[i+1] = {GetPedHairRgbColor(i)}
     end
 
     for i = 0, GetNumMakeupColors() - 1 do
-        colors.makeUp[i + 1] = { GetPedMakeupRgbColor(i) }
+        colors.makeUp[i+1] = {GetPedMakeupRgbColor(i)}
     end
 
     return colors
@@ -58,9 +58,7 @@ local function listContainsAny(items, containedItems)
 end
 
 local function allowedForPlayer(item, allowedAces)
-    return (item.jobs and listContains(item.jobs, client.job.name)) or
-        (item.gangs and listContains(item.gangs, client.gang.name)) or
-        (item.aces and listContainsAny(item.aces, allowedAces) or (item.citizenids and listContains(item.citizenids, client.citizenid)))
+    return (item.jobs and listContains(item.jobs, client.job.name)) or (item.gangs and listContains(item.gangs, client.gang.name)) or (item.aces and listContainsAny(item.aces, allowedAces) or (item.citizenids and listContains(item.citizenids, client.citizenid)))
 end
 
 local function filterPedModelsForPlayer(pedConfigs)
@@ -321,7 +319,7 @@ local function getAppearanceSettings()
     local faceFeatures = table.create(0, size)
     for i = 1, size do
         local feature = constants.FACE_FEATURES[i]
-        faceFeatures[feature] = { min = -1, max = 1, factor = 0.1 }
+        faceFeatures[feature] = { min = -1, max = 1, factor = 0.1}
     end
 
     local colors = getRgbColors()
@@ -386,17 +384,6 @@ function client.getConfig() return config end
 local isCameraInterpolating
 local currentCamera
 local cameraHandle
-local function setPedProp(ped, prop)
-    if prop then
-        if prop.drawable == -1 then
-            ClearPedProp(ped, math.floor(prop.prop_id))
-        else
-            -- Texture must be >= 0 for SetPedPropIndex (unlike drawable which can be -1)
-            SetPedPropIndex(ped, math.floor(prop.prop_id), math.floor(prop.drawable),
-                math.max(0, math.floor(prop.texture)), true)
-        end
-    end
-end
 local function setCamera(key)
     if not isCameraInterpolating then
         if key ~= "current" then
@@ -407,11 +394,9 @@ local function setCamera(key)
         local reverseFactor = reverseCamera and -1 or 1
 
         if cameraHandle then
-            local camCoords = GetOffsetFromEntityInWorldCoords(cache.ped, coords.x * reverseFactor,
-                coords.y * reverseFactor, coords.z * reverseFactor)
+            local camCoords = GetOffsetFromEntityInWorldCoords(cache.ped, coords.x * reverseFactor, coords.y * reverseFactor, coords.z * reverseFactor)
             local camPoint = GetOffsetFromEntityInWorldCoords(cache.ped, point.x, point.y, point.z)
-            local tmpCamera = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", camCoords.x, camCoords.y, camCoords.z,
-                0.0, 0.0, 0.0, 49.0, false, 0)
+            local tmpCamera = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", camCoords.x, camCoords.y, camCoords.z, 0.0, 0.0, 0.0, 49.0, false, 0)
 
             PointCamAtCoord(tmpCamera, camPoint.x, camPoint.y, camPoint.z)
             SetCamActiveWithInterp(tmpCamera, cameraHandle, 1000, 1, 1)
@@ -419,8 +404,7 @@ local function setCamera(key)
             isCameraInterpolating = true
 
             CreateThread(function()
-                repeat
-                    Wait(500)
+                repeat Wait(500)
                 until not IsCamInterpolating(cameraHandle) and IsCamActive(tmpCamera)
                 DestroyCam(cameraHandle, false)
                 cameraHandle = tmpCamera
@@ -429,8 +413,7 @@ local function setCamera(key)
         else
             local camCoords = GetOffsetFromEntityInWorldCoords(cache.ped, coords.x, coords.y, coords.z)
             local camPoint = GetOffsetFromEntityInWorldCoords(cache.ped, point.x, point.y, point.z)
-            cameraHandle = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", camCoords.x, camCoords.y, camCoords.z, 0.0,
-                0.0, 0.0, 49.0, false, 0)
+            cameraHandle = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", camCoords.x, camCoords.y, camCoords.z, 0.0, 0.0, 0.0, 49.0, false, 0)
 
             PointCamAtCoord(cameraHandle, camPoint.x, camPoint.y, camPoint.z)
             SetCamActive(cameraHandle, true)
@@ -454,8 +437,7 @@ function client.rotateCamera(direction)
         )
 
         local camPoint = GetOffsetFromEntityInWorldCoords(cache.ped, point.x, point.y, point.z)
-        local tmpCamera = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", camCoords.x, camCoords.y, camCoords.z, 0.0,
-            0.0, 0.0, 49.0, false, 0)
+        local tmpCamera = CreateCameraWithParams("DEFAULT_SCRIPTED_CAMERA", camCoords.x, camCoords.y, camCoords.z, 0.0, 0.0, 0.0, 49.0, false, 0)
 
         PointCamAtCoord(tmpCamera, camPoint.x, camPoint.y, camPoint.z)
         SetCamActiveWithInterp(tmpCamera, cameraHandle, 1000, 1, 1)
@@ -463,8 +445,7 @@ function client.rotateCamera(direction)
         isCameraInterpolating = true
 
         CreateThread(function()
-            repeat
-                Wait(500)
+            repeat Wait(500)
             until not IsCamInterpolating(cameraHandle) and IsCamActive(tmpCamera)
             DestroyCam(cameraHandle, false)
             cameraHandle = tmpCamera
@@ -474,14 +455,11 @@ function client.rotateCamera(direction)
 end
 
 local playerCoords
-local function pedTurn(ped, angle, shouldReverse)
-    if shouldReverse then
-        reverseCamera = not reverseCamera
-    end
+local function pedTurn(ped, angle)
+    reverseCamera = not reverseCamera
     local sequenceTaskId = OpenSequenceTask()
     if sequenceTaskId then
-        TaskGoStraightToCoord(0, playerCoords.x, playerCoords.y, playerCoords.z, 8.0, -1, GetEntityHeading(ped) - angle,
-            0.1)
+        TaskGoStraightToCoord(0, playerCoords.x, playerCoords.y, playerCoords.z, 8.0, -1, GetEntityHeading(ped) - angle, 0.1)
         TaskStandStill(0, -1)
         CloseSequenceTask(sequenceTaskId)
         ClearPedTasks(ped)
@@ -524,8 +502,7 @@ local function wearClothes(data, typeClothes)
         end
     end
 
-    TaskPlayAnim(cache.ped, animationsOn.dict, animationsOn.anim, 3.0, 3.0, animationsOn.duration, animationsOn.move, 0,
-        false, false, false)
+    TaskPlayAnim(cache.ped, animationsOn.dict, animationsOn.anim, 3.0, 3.0, animationsOn.duration, animationsOn.move, 0, false, false, false)
 end
 client.wearClothes = wearClothes
 
@@ -549,8 +526,7 @@ local function removeClothes(typeClothes)
         ClearPedProp(cache.ped, props[i][1])
     end
 
-    TaskPlayAnim(cache.ped, animationsOff.dict, animationsOff.anim, 3.0, 3.0, animationsOff.duration, animationsOff.move,
-        0, false, false, false)
+    TaskPlayAnim(cache.ped, animationsOff.dict, animationsOff.anim, 3.0, 3.0, animationsOff.duration, animationsOff.move, 0, false, false, false)
 end
 client.removeClothes = removeClothes
 
@@ -559,9 +535,7 @@ function client.getHeading() return playerHeading end
 
 local callback
 function client.startPlayerCustomization(cb, conf)
-    print("[DEBUG] startPlayerCustomization called")
     repeat Wait(0) until IsScreenFadedIn() and not IsPlayerTeleportActive() and not IsPlayerSwitchInProgress()
-    print("[DEBUG] Screen checks passed")
 
     playerAppearance = client.getPedAppearance(cache.ped)
     playerCoords = GetEntityCoords(cache.ped, true)
@@ -586,8 +560,7 @@ function client.startPlayerCustomization(cb, conf)
     SendNuiMessage(json.encode({
         type = "appearance_display",
         payload = {
-            asynchronous = Config.AsynchronousLoading,
-            showAppearance = config.appearance
+            asynchronous = Config.AsynchronousLoading
         }
     }))
 end
@@ -627,6 +600,7 @@ function client.exitPlayerCustomization(appearance)
     currentCamera = nil
     reverseCamera = nil
     isCameraInterpolating = nil
+
 end
 
 AddEventHandler("onResourceStop", function(resource)

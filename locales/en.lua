@@ -111,7 +111,7 @@ Locales["en"] = {
         },
         components = {
             title = "Clothes",
-            drawable = "Variant",
+            drawable = "Drawable",
             texture = "Texture",
             mask = "Mask",
             upperBody = "Hands",
@@ -127,7 +127,7 @@ Locales["en"] = {
         },
         props = {
             title = "Props",
-            drawable = "Variant",
+            drawable = "Drawable",
             texture = "Texture",
             hats = "Hats and helmets",
             glasses = "Glasses",
@@ -264,18 +264,13 @@ Locales["en"] = {
         description = "Pick from any of your work outfits"
     },
     menu = {
-        returnTitle = "Cancel",
-        title = "Wardrobe",
-        save = "Save",
+        returnTitle = "Return",
+        title = "Clothing Room",
         outfitsTitle = "Player Outfits",
         clothingShopTitle = "Clothing Shop",
         barberShopTitle = "Barber Shop",
         tattooShopTitle = "Tattoo Shop",
         surgeonShopTitle = "Surgeon Shop"
-    },
-    info = {
-        title = "Information",
-        id = "ID"
     },
     clothing = {
         title = "Buy Clothing - $%d",

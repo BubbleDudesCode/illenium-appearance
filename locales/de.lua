@@ -111,7 +111,7 @@ Locales["de"] = {
         },
         components = {
             title = "Kleidung",
-            drawable = "Variante",
+            drawable = "Nummer",
             texture = "Textur",
             mask = "Masken",
             upperBody = "Arme",
@@ -127,7 +127,7 @@ Locales["de"] = {
         },
         props = {
             title = "Accessoires",
-            drawable = "Variante",
+            drawable = "Nummer",
             texture = "Textur",
             hats = "Hüte und Helme",
             glasses = "Brillen",
@@ -264,18 +264,13 @@ Locales["de"] = {
         description = "Wählen Sie eines Ihrer Arbeitsoutfits aus"
     },
     menu = {
-        returnTitle = "Abbrechen",
-        title = "Garderobe",
-        save = "Speichern",
+        returnTitle = "Zurück",
+        title = "Kleiderzimmer",
         outfitsTitle = "Spieler Kostüme",
         clothingShopTitle = "Kleidungsgeschäft",
         barberShopTitle = "Friseur",
         tattooShopTitle = "Tattoo-Shop",
         surgeonShopTitle = "Schönheitschirurg"
-    },
-    info = {
-        title = "Information",
-        id = "ID"
     },
     clothing = {
         title = "Kleidung kaufen - $%d",
