@@ -559,7 +559,9 @@ function client.getHeading() return playerHeading end
 
 local callback
 function client.startPlayerCustomization(cb, conf)
+    print("[DEBUG] startPlayerCustomization called")
     repeat Wait(0) until IsScreenFadedIn() and not IsPlayerTeleportActive() and not IsPlayerSwitchInProgress()
+    print("[DEBUG] Screen checks passed")
 
     playerAppearance = client.getPedAppearance(cache.ped)
     playerCoords = GetEntityCoords(cache.ped, true)

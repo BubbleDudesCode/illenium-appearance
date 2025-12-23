@@ -109,8 +109,10 @@ function SetInitialClothes(initial)
 end
 
 function InitializeCharacter(gender, onSubmit, onCancel)
+    print("[DEBUG] InitializeCharacter called")
     SetInitialClothes(Config.InitialPlayerClothes[gender])
     local config = getNewCharacterConfig()
+    print("[DEBUG] Config loaded: " .. json.encode(config))
     TriggerServerEvent("illenium-appearance:server:ChangeRoutingBucket")
     client.startPlayerCustomization(function(appearance)
         if (appearance) then
