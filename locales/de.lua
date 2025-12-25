@@ -12,6 +12,17 @@ Locales["de"] = {
             accept = "Ja",
             decline = "Nein"
         },
+        common = {
+            back = "Zurück zu",
+            save = "Speichern",
+            rotate = "Drehen",
+            camera = "Kamera",
+            drawable = "Stil",
+            texture = "Textur",
+            opacity = "Deckkraft",
+            left = "Links",
+            right = "Rechts"
+        },
         ped = {
             title = "Ped",
             model = "Model"
