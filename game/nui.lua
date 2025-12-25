@@ -11,9 +11,20 @@ end)
 RegisterNUICallback("appearance_get_data", function(_, cb)
     Wait(250)
     local appearanceData = client.getAppearance()
+
+    -- Apply tattoos from the database if they exist
     if appearanceData.tattoos then
         client.setPedTattoos(cache.ped, appearanceData.tattoos)
+        -- Update the cached appearance with the loaded tattoos
+        -- This ensures tattoos persist in the appearance data
+    else
+        -- If no tattoos in the saved appearance, ensure we update it with current tattoos from memory
+        local currentTattoos = client.getPedTattoos()
+        if currentTattoos and next(currentTattoos) then
+            appearanceData.tattoos = currentTattoos
+        end
     end
+
     cb({ config = client.getConfig(), appearanceData = appearanceData })
 end)
 
@@ -82,21 +93,80 @@ end)
 
 RegisterNUICallback("appearance_apply_tattoo", function(data, cb)
     local paid = not data.tattoo or not Config.ChargePerTattoo or
-    lib.callback.await("illenium-appearance:server:payForTattoo", false, data.tattoo)
+        lib.callback.await("illenium-appearance:server:payForTattoo", false, data.tattoo)
     if paid then
-        client.addPedTattoo(cache.ped, data.updatedTattoos or data)
+        -- Convert flat array to zone-based structure
+        local zoneBasedTattoos = {}
+        if data.updatedTattoos then
+            for _, tattoo in ipairs(data.updatedTattoos) do
+                local zone = tattoo.zone or "ZONE_TORSO"
+                if not zoneBasedTattoos[zone] then
+                    zoneBasedTattoos[zone] = {}
+                end
+                table.insert(zoneBasedTattoos[zone], tattoo)
+            end
+        end
+        client.addPedTattoo(cache.ped, zoneBasedTattoos)
     end
     cb(paid)
 end)
 
 RegisterNUICallback("appearance_preview_tattoo", function(previewTattoo, cb)
     cb(1)
-    client.setPreviewTattoo(cache.ped, previewTattoo.data, previewTattoo.tattoo)
+    -- Convert flat array to zone-based structure for data
+    local zoneBasedData = {}
+    if previewTattoo.data then
+        for _, tattoo in ipairs(previewTattoo.data) do
+            local zone = tattoo.zone or "ZONE_TORSO"
+            if not zoneBasedData[zone] then
+                zoneBasedData[zone] = {}
+            end
+            table.insert(zoneBasedData[zone], tattoo)
+        end
+    end
+    client.setPreviewTattoo(cache.ped, zoneBasedData, previewTattoo.tattoo)
 end)
 
 RegisterNUICallback("appearance_delete_tattoo", function(data, cb)
     cb(1)
-    client.removePedTattoo(cache.ped, data)
+    -- Get current tattoos and remove the specified one
+    local currentTattoos = client.getPedTattoos() or {}
+
+    -- Find and remove the tattoo from the zone-based structure
+    for zone, tattoos in pairs(currentTattoos) do
+        for i = #tattoos, 1, -1 do
+            if tattoos[i].collection == data.collection and tattoos[i].name == data.name then
+                table.remove(tattoos, i)
+            end
+        end
+    end
+
+    client.removePedTattoo(cache.ped, currentTattoos)
+end)
+
+RegisterNUICallback("appearance_get_tattoos", function(data, cb)
+    local allTattoos = {}
+    -- Flatten Config.Tattoos structure
+    for zone, tattoos in pairs(Config.Tattoos or {}) do
+        for _, tattoo in ipairs(tattoos) do
+            table.insert(allTattoos, tattoo)
+        end
+    end
+
+    -- Get currently applied tattoos (zone-based) and flatten them
+    local appliedZoneBased = client.getPedTattoos() or {}
+    local appliedFlat = {}
+
+    for zone, tattoos in pairs(appliedZoneBased) do
+        for _, tattoo in ipairs(tattoos) do
+            table.insert(appliedFlat, tattoo)
+        end
+    end
+
+    cb({
+        tattoos = allTattoos,
+        applied = appliedFlat
+    })
 end)
 
 RegisterNUICallback("appearance_wear_clothes", function(dataWearClothes, cb)

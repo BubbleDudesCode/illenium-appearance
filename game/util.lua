@@ -77,7 +77,13 @@ end
 ---```
 local function getPedHeadBlend(ped)
     -- GET_PED_HEAD_BLEND_DATA
-    local shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix, thirdMix = Citizen.InvokeNative(0x2746BD9D88C5C5D0, ped, Citizen.PointerValueIntInitialized(0), Citizen.PointerValueIntInitialized(0), Citizen.PointerValueIntInitialized(0), Citizen.PointerValueIntInitialized(0), Citizen.PointerValueIntInitialized(0), Citizen.PointerValueIntInitialized(0), Citizen.PointerValueFloatInitialized(0), Citizen.PointerValueFloatInitialized(0), Citizen.PointerValueFloatInitialized(0))
+    local shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix, thirdMix = Citizen
+        .InvokeNative(0x2746BD9D88C5C5D0, ped, Citizen.PointerValueIntInitialized(0),
+            Citizen.PointerValueIntInitialized(0),
+            Citizen.PointerValueIntInitialized(0), Citizen.PointerValueIntInitialized(0),
+            Citizen.PointerValueIntInitialized(0), Citizen.PointerValueIntInitialized(0),
+            Citizen.PointerValueFloatInitialized(0), Citizen.PointerValueFloatInitialized(0),
+            Citizen.PointerValueFloatInitialized(0))
 
     shapeMix = tonumber(string.sub(shapeMix, 0, 4))
     if shapeMix > 1 then shapeMix = 1 end
@@ -113,7 +119,7 @@ local function getPedFaceFeatures(ped)
 
     for i = 1, size do
         local feature = constants.FACE_FEATURES[i]
-        faceFeatures[feature] = round(GetPedFaceFeature(ped, i-1), 1)
+        faceFeatures[feature] = round(GetPedFaceFeature(ped, i - 1), 1)
     end
 
     return faceFeatures
@@ -127,7 +133,7 @@ local function getPedHeadOverlays(ped)
 
     for i = 1, size do
         local overlay = constants.HEAD_OVERLAYS[i]
-        local _, value, _, firstColor, secondColor, opacity = GetPedHeadOverlayData(ped, i-1)
+        local _, value, _, firstColor, secondColor, opacity = GetPedHeadOverlayData(ped, i - 1)
 
         if value ~= 255 then
             opacity = round(opacity, 1)
@@ -136,7 +142,7 @@ local function getPedHeadOverlays(ped)
             opacity = 0
         end
 
-        headOverlays[overlay] = {style = value, opacity = opacity, color = firstColor, secondColor = secondColor}
+        headOverlays[overlay] = { style = value, opacity = opacity, color = firstColor, secondColor = secondColor }
     end
 
     return headOverlays
@@ -197,8 +203,8 @@ local function setPlayerModel(model)
 
         if isPedFreemodeModel(cache.ped) then
             SetPedDefaultComponentVariation(cache.ped)
-             -- Check if the model is male or female, then change the face mix based on this.
-             if model == `mp_m_freemode_01` then
+            -- Check if the model is male or female, then change the face mix based on this.
+            if model == `mp_m_freemode_01` then
                 SetPedHeadBlendData(cache.ped, 0, 0, 0, 0, 0, 0, 0, 0, 0, false)
             elseif model == `mp_f_freemode_01` then
                 SetPedHeadBlendData(cache.ped, 45, 21, 0, 20, 15, 0, 0.3, 0.1, 0, false)
@@ -214,14 +220,18 @@ end
 
 local function setPedHeadBlend(ped, headBlend)
     if headBlend and isPedFreemodeModel(ped) then
-        SetPedHeadBlendData(ped, headBlend.shapeFirst, headBlend.shapeSecond, headBlend.shapeThird, headBlend.skinFirst, headBlend.skinSecond, headBlend.skinThird, tofloat(headBlend.shapeMix or 0), tofloat(headBlend.skinMix or 0), tofloat(headBlend.thirdMix or 0), false)
+        SetPedHeadBlendData(ped, headBlend.shapeFirst, headBlend.shapeSecond, headBlend.shapeThird, headBlend.skinFirst,
+            headBlend.skinSecond, headBlend.skinThird, tofloat(headBlend.shapeMix or 0), tofloat(headBlend.skinMix or 0),
+            tofloat(headBlend.thirdMix or 0), false)
     end
 end
 
 local function setPedFaceFeatures(ped, faceFeatures)
     if faceFeatures then
         for k, v in pairs(constants.FACE_FEATURES) do
-            SetPedFaceFeature(ped, k-1, tofloat(faceFeatures[v]))
+            if faceFeatures[v] then
+                SetPedFaceFeature(ped, k - 1, tofloat(faceFeatures[v]))
+            end
         end
     end
 end
@@ -230,7 +240,7 @@ local function setPedHeadOverlays(ped, headOverlays)
     if headOverlays then
         for k, v in pairs(constants.HEAD_OVERLAYS) do
             local headOverlay = headOverlays[v]
-            SetPedHeadOverlay(ped, k-1, headOverlay.style, tofloat(headOverlay.opacity))
+            SetPedHeadOverlay(ped, k - 1, headOverlay.style, tofloat(headOverlay.opacity))
 
             if headOverlay.color then
                 local colorType = 1
@@ -238,7 +248,7 @@ local function setPedHeadOverlays(ped, headOverlays)
                     colorType = 2
                 end
 
-                SetPedHeadOverlayColor(ped, k-1, colorType, headOverlay.color, headOverlay.secondColor)
+                SetPedHeadOverlayColor(ped, k - 1, colorType, headOverlay.color, headOverlay.secondColor)
             end
         end
     end
@@ -248,7 +258,7 @@ local function applyAutomaticFade(ped, style)
     local gender = getPedDecorationType()
     local hairDecoration = constants.HAIR_DECORATIONS[gender][style]
 
-    if(hairDecoration) then
+    if (hairDecoration) then
         AddPedDecorationFromHashes(ped, hairDecoration[1], hairDecoration[2])
     end
 end
@@ -337,25 +347,33 @@ local function getPedTattoos()
 end
 
 local function addPedTattoo(ped, tattoos)
+    PED_TATTOOS = tattoos
     setTattoos(ped, tattoos)
 end
 
 local function removePedTattoo(ped, tattoos)
+    PED_TATTOOS = tattoos
     setTattoos(ped, tattoos)
 end
 
-local function setPreviewTattoo(ped, tattoos, tattoo)
+local function setPreviewTattoo(ped, data, tattoo)
+    ClearPedDecorations(ped) -- Clear all decorations first
     local isMale = client.getPedDecorationType() == "male"
-    local tattooGender = isMale and tattoo.hashMale or tattoo.hashFemale
 
-    ClearPedDecorations(ped)
-    for _ = 1, (tattoo.opacity or 0.1) * 10 do
-        AddPedDecorationFromHashes(ped, joaat(tattoo.collection), tattooGender)
+    -- Apply the preview tattoo if it exists
+    if tattoo and tattoo.hashMale and tattoo.hashFemale then
+        local tattooGender = isMale and tattoo.hashMale or tattoo.hashFemale
+        for _ = 1, (tattoo.opacity or 0.1) * 10 do
+            AddPedDecorationFromHashes(ped, joaat(tattoo.collection), joaat(tattooGender))
+        end
     end
-    for k in pairs(tattoos) do
-        for i = 1, #tattoos[k] do
-            local aTattoo = tattoos[k][i]
-            if aTattoo.name ~= tattoo.name then
+
+    -- Always apply existing tattoos (excluding the preview tattoo if it's already in data)
+    for k in pairs(data) do
+        for i = 1, #data[k] do
+            local aTattoo = data[k][i]
+            -- Only apply if it's not the same as the preview tattoo (if preview tattoo exists)
+            if not tattoo or aTattoo.name ~= tattoo.name then
                 local aTattooGender = isMale and aTattoo.hashMale or aTattoo.hashFemale
                 for _ = 1, (aTattoo.opacity or 0.1) * 10 do
                     AddPedDecorationFromHashes(ped, joaat(aTattoo.collection), joaat(aTattooGender))
