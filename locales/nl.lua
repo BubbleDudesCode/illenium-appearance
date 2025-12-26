@@ -14,7 +14,8 @@ Locales["nl"] = {
         },
         ped = {
             title = "Persoon",
-            model = "Model"
+            model = "Model",
+            noPeds = "No peds found"
         },
         headBlend = {
             title = "Erfenis",
@@ -148,7 +149,8 @@ Locales["nl"] = {
             apply = "Toepassen",
             delete = "Verwijder",
             deleteAll = "Verwijder alle Tattoos",
-            opacity = "Helderheid"
+            opacity = "Helderheid",
+            noTattoos = "No tattoos available for this zone"
         }
     },
     outfitManagement = {

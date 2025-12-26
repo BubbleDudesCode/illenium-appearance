@@ -14,7 +14,8 @@ Locales["cs"] = {
         },
         ped = {
             title = "Postava",
-            model = "Model"
+            model = "Model",
+            noPeds = "No peds found"
         },
         headBlend = {
             title = "Dědičnost",
@@ -148,7 +149,8 @@ Locales["cs"] = {
             apply = "Aplikovat",
             delete = "Odstranit",
             deleteAll = "Odstranit všechna tetování",
-            opacity = "Průhlednost"
+            opacity = "Průhlednost",
+            noTattoos = "No tattoos available for this zone"
         }
     },
     outfitManagement = {

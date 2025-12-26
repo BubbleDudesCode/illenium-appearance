@@ -25,7 +25,8 @@ Locales["en"] = {
         },
         ped = {
             title = "Ped",
-            model = "Model"
+            model = "Model",
+            noPeds = "No peds found"
         },
         headBlend = {
             title = "Inheritance",
@@ -160,7 +161,8 @@ Locales["en"] = {
             apply = "Apply",
             delete = "Remove",
             deleteAll = "Remove all Tattoos",
-            opacity = "Opacity"
+            opacity = "Opacity",
+            noTattoos = "No tattoos available for this zone"
         }
     },
     outfitManagement = {

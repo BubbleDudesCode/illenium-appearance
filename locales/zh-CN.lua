@@ -14,7 +14,8 @@ Locales["zh-CN"] = {
         },
         ped = {
             title = "角色",
-            model = "模型"
+            model = "模型",
+            noPeds = "No peds found"
         },
         headBlend = {
             title = "遗传",
@@ -148,7 +149,8 @@ Locales["zh-CN"] = {
             apply = "应用",
             delete = "移除",
             deleteAll = "移除所有纹身",
-            opacity = "透明度"
+            opacity = "透明度",
+            noTattoos = "No tattoos available for this zone"
         }
     },
     outfitManagement = {

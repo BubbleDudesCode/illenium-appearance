@@ -25,7 +25,8 @@ Locales["de"] = {
         },
         ped = {
             title = "Ped",
-            model = "Model"
+            model = "Model",
+            noPeds = "Keine Peds gefunden"
         },
         headBlend = {
             title = "Vererbung",
@@ -160,7 +161,8 @@ Locales["de"] = {
             apply = "Anwenden",
             delete = "Entfernen",
             deleteAll = "Alle Tattoos entfernen",
-            opacity = "Deckkraft"
+            opacity = "Deckkraft",
+            noTattoos = "Keine Tattoos für diese Zone verfügbar"
         }
     },
     outfitManagement = {

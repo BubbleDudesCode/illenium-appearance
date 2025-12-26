@@ -14,7 +14,8 @@ Locales["ro-RO"] = {
         },
         ped = {
             title = "Ped",
-            model = "Model"
+            model = "Model",
+            noPeds = "No peds found"
         },
         headBlend = {
             title = "Aparente",
@@ -148,7 +149,8 @@ Locales["ro-RO"] = {
             apply = "Aplica",
             delete = "Sterge",
             deleteAll = "Sterge toate tatuajele",
-            opacity = "Opacitate"
+            opacity = "Opacitate",
+            noTattoos = "No tattoos available for this zone"
         }
     },
     outfitManagement = {

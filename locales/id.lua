@@ -14,7 +14,8 @@ Locales["id"] = {
         },
         ped = {
             title = "Karakter",
-            model = "Pilihan"
+            model = "Pilihan",
+            noPeds = "No peds found"
         },
         headBlend = {
             title = "Bagian Kepala",
@@ -148,7 +149,8 @@ Locales["id"] = {
             apply = "Terapkan",
             delete = "Hapus",
             deleteAll = "Hapus Semua Tato",
-            opacity = "Kegelapan"
+            opacity = "Kegelapan",
+            noTattoos = "No tattoos available for this zone"
         }
     },
     outfitManagement = {

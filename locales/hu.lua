@@ -14,7 +14,8 @@ Locales["hu"] = {
         },
         ped = {
             title = "Ped",
-            model = "Model"
+            model = "Model",
+            noPeds = "No peds found"
         },
         headBlend = {
             title = "Öröklődés",
@@ -148,7 +149,8 @@ Locales["hu"] = {
             apply = "Mentés",
             delete = "Törlés",
             deleteAll = "Összes tetkó törlése",
-            opacity = "Átlátszóság"
+            opacity = "Átlátszóság",
+            noTattoos = "No tattoos available for this zone"
         }
     },
     outfitManagement = {
@@ -353,7 +355,8 @@ Locales["hu"] = {
         store = {
             success = {
                 title = "Sikeres",
-                description = "Ennyit fizettél: $%s" --"Gave $100 to clothing" doesn't really make sense, I just removed the second %s
+                description =
+                "Ennyit fizettél: $%s" --"Gave $100 to clothing" doesn't really make sense, I just removed the second %s
             },
             failure = {
                 title = "Hiba",

@@ -14,7 +14,8 @@ Locales["bg"] = {
         },
         ped = {
             title = "Пед",
-            model = "Модел"
+            model = "Модел",
+            noPeds = "No peds found"
         },
         headBlend = {
             title = "Генове",
@@ -148,7 +149,8 @@ Locales["bg"] = {
             apply = "Прилагане",
             delete = "Премахване",
             deleteAll = "Премахване на всички татуировки",
-            opacity = "Непрозрачност"
+            opacity = "Непрозрачност",
+            noTattoos = "No tattoos available for this zone"
         }
     },
     outfitManagement = {

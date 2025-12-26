@@ -14,7 +14,8 @@ Locales["ar"] = {
         },
         ped = {
             title = "الشكل",
-            model = "النوع"
+            model = "النوع",
+            noPeds = "No peds found"
         },
         headBlend = {
             title = "شكلك",
@@ -148,7 +149,8 @@ Locales["ar"] = {
             apply = "تأكيد",
             delete = "حدف",
             deleteAll = "حدف كل الوشم",
-            opacity = "الغضب"
+            opacity = "الغضب",
+            noTattoos = "No tattoos available for this zone"
         }
     },
     outfitManagement = {
