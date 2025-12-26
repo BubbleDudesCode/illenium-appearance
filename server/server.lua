@@ -317,7 +317,6 @@ lib.addCommand("pedmenu", {
     },
     -- restricted = Config.PedMenuGroup
 }, function(source, args)
-    print("[illenium-appearance] /pedmenu command triggered by source: " .. tostring(source))
     local target = source
     if args.playerID then
         local citizenID = Framework.GetPlayerID(args.playerID)
