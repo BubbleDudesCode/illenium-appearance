@@ -37,6 +37,6 @@ function GetDefaultConfig()
         enableExit = true,
         hasTracker = Config.PreventTrackerRemoval and Framework.HasTracker(),
         automaticFade = Config.AutomaticFade,
-        EnablePedMenu = Config.EnablePedMenu
+        EnablePedMenu = false
     }
 end

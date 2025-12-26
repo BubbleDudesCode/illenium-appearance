@@ -219,10 +219,20 @@ local function setPlayerModel(model)
 end
 
 local function setPedHeadBlend(ped, headBlend)
+    -- print("[DEBUG] setPedHeadBlend called with:", json.encode(headBlend))
     if headBlend and isPedFreemodeModel(ped) then
-        SetPedHeadBlendData(ped, headBlend.shapeFirst, headBlend.shapeSecond, headBlend.shapeThird, headBlend.skinFirst,
-            headBlend.skinSecond, headBlend.skinThird, tofloat(headBlend.shapeMix or 0), tofloat(headBlend.skinMix or 0),
-            tofloat(headBlend.thirdMix or 0), false)
+        local shapeFirst = math.floor(tonumber(headBlend.shapeFirst) or 0)
+        local shapeSecond = math.floor(tonumber(headBlend.shapeSecond) or 0)
+        local shapeThird = math.floor(tonumber(headBlend.shapeThird) or 0)
+        local skinFirst = math.floor(tonumber(headBlend.skinFirst) or 0)
+        local skinSecond = math.floor(tonumber(headBlend.skinSecond) or 0)
+        local skinThird = math.floor(tonumber(headBlend.skinThird) or 0)
+        local shapeMix = (tonumber(headBlend.shapeMix) or 0.0) + 0.0
+        local skinMix = (tonumber(headBlend.skinMix) or 0.0) + 0.0
+        local thirdMix = (tonumber(headBlend.thirdMix) or 0.0) + 0.0
+
+        SetPedHeadBlendData(ped, shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird,
+            shapeMix, skinMix, thirdMix, false)
     end
 end
 

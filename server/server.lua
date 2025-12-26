@@ -1,4 +1,5 @@
 local outfitCache = {}
+print("[illenium-appearance] Server script loaded")
 local uniformCache = {}
 
 local function getMoneyForShop(shopType)
@@ -67,10 +68,11 @@ lib.callback.register("illenium-appearance:server:importOutfitCode", function(so
         return
     end
 
-    if playerOutfit.citizenid == citizenID then return end -- Validation when someone tried to duplicate own outfit
+    if playerOutfit.citizenid == citizenID then return end                       -- Validation when someone tried to duplicate own outfit
     if Database.PlayerOutfits.GetByOutfit(outfitName, citizenID) then return end -- Validation duplicate outfit name, if validate on local id, someone can "spam error" server-sided
 
-    local id = Database.PlayerOutfits.Add(citizenID, outfitName, playerOutfit.model, playerOutfit.components, playerOutfit.props)
+    local id = Database.PlayerOutfits.Add(citizenID, outfitName, playerOutfit.model, playerOutfit.components,
+        playerOutfit.props)
 
     if not id then
         print("Something went wrong while importing the outfit")
@@ -254,7 +256,7 @@ RegisterNetEvent("illenium-appearance:server:saveManagementOutfit", function(out
 
     lib.notify(src, {
         title = _L("outfits.save.success.title"),
-            description = string.format(_L("outfits.save.success.description"), outfitData.Name),
+        description = string.format(_L("outfits.save.success.description"), outfitData.Name),
         type = "success",
         position = Config.NotifyOptions.position
     })
@@ -301,37 +303,39 @@ RegisterNetEvent("illenium-appearance:server:ResetRoutingBucket", function()
     SetPlayerRoutingBucket(src, 0)
 end)
 
-if Config.EnablePedMenu then
-    lib.addCommand("pedmenu", {
-        help = _L("commands.pedmenu.title"),
-        params = {
-            {
-                name = "playerID",
-                type = "number",
-                help = "Target player's server id",
-                optional = true
-            },
+-- if Config.EnablePedMenu then
+print("[illenium-appearance] Registering pedmenu command...")
+lib.addCommand("pedmenu", {
+    help = _L("commands.pedmenu.title"),
+    params = {
+        {
+            name = "playerID",
+            type = "number",
+            help = "Target player's server id",
+            optional = true
         },
-        restricted = Config.PedMenuGroup
-    }, function(source, args)
-        local target = source
-        if args.playerID then
-            local citizenID = Framework.GetPlayerID(args.playerID)
-            if citizenID then
-                target = args.playerID
-            else
-                lib.notify(source, {
-                    title = _L("commands.pedmenu.failure.title"),
-                    description = _L("commands.pedmenu.failure.description"),
-                    type = "error",
-                    position = Config.NotifyOptions.position
-                })
-                return
-            end
+    },
+    -- restricted = Config.PedMenuGroup
+}, function(source, args)
+    print("[illenium-appearance] /pedmenu command triggered by source: " .. tostring(source))
+    local target = source
+    if args.playerID then
+        local citizenID = Framework.GetPlayerID(args.playerID)
+        if citizenID then
+            target = args.playerID
+        else
+            lib.notify(source, {
+                title = _L("commands.pedmenu.failure.title"),
+                description = _L("commands.pedmenu.failure.description"),
+                type = "error",
+                position = Config.NotifyOptions.position
+            })
+            return
         end
-        TriggerClientEvent("illenium-appearance:client:openClothingShopMenu", target, true)
-    end)
-end
+    end
+    TriggerClientEvent("illenium-appearance:client:openClothingShopMenu", target, true)
+end)
+-- end
 
 if Config.EnableJobOutfitsCommand then
     lib.addCommand("joboutfits", { help = _L("commands.joboutfits.title"), }, function(source)
@@ -351,4 +355,4 @@ lib.addCommand("clearstuckprops", { help = _L("commands.clearstuckprops.title") 
     TriggerClientEvent("illenium-appearance:client:ClearStuckProps", source)
 end)
 
-lib.versionCheck("iLLeniumStudios/illenium-appearance")
+-- lib.versionCheck("iLLeniumStudios/illenium-appearance")

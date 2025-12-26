@@ -78,6 +78,7 @@ end
 
 AddEventHandler("onResourceStart", function(resource)
     if resource == GetCurrentResourceName() then
+        print("[illenium-appearance] Client resource started")
         InitAppearance()
     end
 end)
@@ -628,6 +629,7 @@ function OpenMenu(isPedMenu, menuType, menuData)
 end
 
 RegisterNetEvent("illenium-appearance:client:openClothingShopMenu", function(isPedMenu)
+    print("[illenium-appearance] openClothingShopMenu event received. isPedMenu: " .. tostring(isPedMenu))
     if type(isPedMenu) == "table" then
         isPedMenu = false
     end

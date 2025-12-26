@@ -1,6 +1,6 @@
 Config.Theme = {
     currentTheme = "default",
-    enableOverlay = false, -- Set to false to disable the dim background overlay
+    enableOverlay = true, -- Set to false to disable the dim background overlay
     themes = {
         {
             id = "default", -- Cyan / Slate (Default)
