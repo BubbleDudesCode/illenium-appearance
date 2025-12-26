@@ -57,7 +57,8 @@ Locales["en"] = {
                 size = "Size",
                 boneHeight = "Bone height",
                 boneTwist = "Bone twist",
-                peakHeight = "Peak height"
+                peakHeight = "Peak height",
+                peakLowering = "Peak lowering"
             },
             eyebrows = {
                 title = "Eyebrows",

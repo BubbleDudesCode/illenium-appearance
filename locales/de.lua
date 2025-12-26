@@ -57,7 +57,8 @@ Locales["de"] = {
                 size = "Größe",
                 boneHeight = "Knochenhöhe",
                 boneTwist = "Knochendrehung",
-                peakHeight = "Höhe der Spitze"
+                peakHeight = "Höhe der Spitze",
+                peakLowering = "Spitze senken"
             },
             eyebrows = {
                 title = "Augenbrauen",
