@@ -11,7 +11,8 @@ local function LoadPlayerUniform(reset)
             return
         end
         if Config.BossManagedOutfits then
-            local result = lib.callback.await("illenium-appearance:server:getManagementOutfits", false, uniformData.type, Framework.GetGender())
+            local result = lib.callback.await("illenium-appearance:server:getManagementOutfits", false, uniformData.type,
+                Framework.GetGender())
             local uniform = nil
             for i = 1, #result, 1 do
                 if result[i].name == uniformData.name then
@@ -82,7 +83,7 @@ AddEventHandler("onResourceStart", function(resource)
 end)
 
 local function getNewCharacterConfig()
-    local config = GetDefaultConfig()
+    local config        = GetDefaultConfig()
     config.enableExit   = false
 
     config.ped          = Config.NewCharacterSections.Ped
@@ -167,6 +168,7 @@ local function OpenClothingShop(isPedMenu)
         config.faceFeatures = true
         config.headOverlays = true
         config.tattoos = not Config.RCoreTattoosCompatibility and true
+        config.EnablePedMenu = isPedMenu
     end
     OpenShop(config, isPedMenu, "clothing")
 end
@@ -403,7 +405,8 @@ local function RegisterDeleteOutfitMenu(id, parent, outfits, deleteEvent)
     for i = 1, #outfits, 1 do
         deleteOutfitMenu.options[#deleteOutfitMenu.options + 1] = {
             title = string.format(_L("outfits.delete.item.title"), outfits[i].name),
-            description = string.format(_L("outfits.delete.item.description"), outfits[i].model, (outfits[i].gender and (" - Gender: " .. outfits[i].gender) or "")),
+            description = string.format(_L("outfits.delete.item.description"), outfits[i].model,
+                (outfits[i].gender and (" - Gender: " .. outfits[i].gender) or "")),
             event = deleteEvent,
             args = outfits[i].id
         }
@@ -413,13 +416,15 @@ local function RegisterDeleteOutfitMenu(id, parent, outfits, deleteEvent)
 end
 
 RegisterNetEvent("illenium-appearance:client:OutfitManagementMenu", function(args)
-    local outfits = lib.callback.await("illenium-appearance:server:getManagementOutfits", false, args.type, Framework.GetGender())
+    local outfits = lib.callback.await("illenium-appearance:server:getManagementOutfits", false, args.type,
+        Framework.GetGender())
     local managementMenuID = "illenium_appearance_outfit_management_menu"
     local changeManagementOutfitMenuID = "illenium_appearance_change_management_outfit_menu"
     local deleteManagementOutfitMenuID = "illenium_appearance_delete_management_outfit_menu"
 
     RegisterChangeOutfitMenu(changeManagementOutfitMenuID, managementMenuID, outfits, args.type)
-    RegisterDeleteOutfitMenu(deleteManagementOutfitMenuID, managementMenuID, outfits, "illenium-appearance:client:DeleteManagementOutfit")
+    RegisterDeleteOutfitMenu(deleteManagementOutfitMenuID, managementMenuID, outfits,
+        "illenium-appearance:client:DeleteManagementOutfit")
     local managementMenu = {
         id = managementMenuID,
         title = string.format(_L("outfits.manage.title"), args.type),
@@ -462,38 +467,37 @@ RegisterNetEvent("illenium-appearance:client:SaveManagementOutfit", function(mTy
     if mType == "Job" then
         outfitData.JobName = client.job.name
         rankValues = Framework.GetRankInputValues("job")
-
     else
         outfitData.JobName = client.gang.name
         rankValues = Framework.GetRankInputValues("gang")
     end
 
     local dialogResponse = lib.inputDialog(_L("outfits.save.managementTitle"), {
-            {
-                label = _L("outfits.save.name.label"),
-                type = "input",
-                required = true
-            },
-            {
-                label = _L("outfits.save.gender.label"),
-                type = "select",
-                options = {
-                    {
-                        label = _L("outfits.save.gender.male"), value = "male"
-                    },
-                    {
-                        label = _L("outfits.save.gender.female"), value = "female"
-                    }
+        {
+            label = _L("outfits.save.name.label"),
+            type = "input",
+            required = true
+        },
+        {
+            label = _L("outfits.save.gender.label"),
+            type = "select",
+            options = {
+                {
+                    label = _L("outfits.save.gender.male"), value = "male"
                 },
-                default = "male",
+                {
+                    label = _L("outfits.save.gender.female"), value = "female"
+                }
             },
-            {
-                label = _L("outfits.save.rank.label"),
-                type = "select",
-                options = rankValues,
-                default = "0"
-            }
-        })
+            default = "male",
+        },
+        {
+            label = _L("outfits.save.rank.label"),
+            type = "select",
+            options = rankValues,
+            default = "0"
+        }
+    })
 
     if not dialogResponse then
         return
@@ -505,7 +509,6 @@ RegisterNetEvent("illenium-appearance:client:SaveManagementOutfit", function(mTy
     outfitData.MinRank = tonumber(dialogResponse[3])
 
     TriggerServerEvent("illenium-appearance:server:saveManagementOutfit", outfitData)
-
 end)
 
 local function RegisterWorkOutfitsListMenu(id, parent, menuData)
@@ -747,10 +750,10 @@ RegisterNetEvent("illenium-appearance:client:ClearStuckProps", function()
     reloadSkinTimer = GetGameTimer()
 
     for _, v in pairs(GetGamePool("CObject")) do
-      if IsEntityAttachedToEntity(cache.ped, v) then
-        SetEntityAsMissionEntity(v, true, true)
-        DeleteObject(v)
-        DeleteEntity(v)
-      end
+        if IsEntityAttachedToEntity(cache.ped, v) then
+            SetEntityAsMissionEntity(v, true, true)
+            DeleteObject(v)
+            DeleteEntity(v)
+        end
     end
 end)

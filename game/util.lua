@@ -453,5 +453,6 @@ client = {
     setPedComponents = setPedComponents,
     setPedProps = setPedProps,
     getPedComponents = getPedComponents,
-    getPedProps = getPedProps
+    getPedProps = getPedProps,
+    getConfig = function() return Config end
 }
