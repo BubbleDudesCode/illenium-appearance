@@ -1,7 +1,10 @@
 local client = client
 
 RegisterNUICallback("appearance_get_locales", function(_, cb)
-    cb(Locales[GetConvar("illenium-appearance:locale", "en")])
+    Wait(500) -- Wait for convar sync on restart
+    local lang = GetConvar("illenium-appearance:locale", "en")
+    print("[Illenium] Detected Locale:", lang)
+    cb(Locales[lang])
 end)
 
 RegisterNUICallback("appearance_get_settings", function(_, cb)
