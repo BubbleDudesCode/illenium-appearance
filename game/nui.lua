@@ -25,7 +25,7 @@ RegisterNUICallback("appearance_get_data", function(_, cb)
         end
     end
 
-    cb({ config = client.getConfig(), appearanceData = appearanceData })
+    cb({ config = client.getConfig(), appearanceData = appearanceData, playerId = GetPlayerServerId(PlayerId()) })
 end)
 
 RegisterNUICallback("appearance_set_camera", function(camera, cb)
